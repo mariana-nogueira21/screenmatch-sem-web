@@ -74,17 +74,17 @@ public class Principal {
 
         episodios.forEach(System.out::println);
 
-        System.out.println("Digite um trecho do titulo do episodio: ");
-        var techoTitulo = leitura.nextLine();
-        Optional<Episodio> episodioBuscado = episodios.stream()
-                .filter(e -> e.getTitulo().toUpperCase().contains(techoTitulo.toUpperCase()))
-                .findFirst();
-        if (episodioBuscado.isPresent()) {
-            System.out.println("Episodio encontrado!");
-            System.out.println("Temporada: " + episodioBuscado.get().getTemporada());
-        } else {
-            System.out.println("Episodio não encontrado!");
-        }
+//        System.out.println("Digite um trecho do titulo do episodio: ");
+//        var techoTitulo = leitura.nextLine();
+//        Optional<Episodio> episodioBuscado = episodios.stream()
+//                .filter(e -> e.getTitulo().toUpperCase().contains(techoTitulo.toUpperCase()))
+//                .findFirst();
+//        if (episodioBuscado.isPresent()) {
+//            System.out.println("Episodio encontrado!");
+//            System.out.println("Temporada: " + episodioBuscado.get().getTemporada());
+//        } else {
+//            System.out.println("Episodio não encontrado!");
+//        }
 //
 //        System.out.println("A partir de que ano você deseja ver os episodio? ");
 //        var ano = leitura.nextInt();
@@ -108,5 +108,14 @@ public class Principal {
                 .collect(Collectors.groupingBy(Episodio::getTemporada,
                         Collectors.averagingDouble(Episodio::getAvaliacao)));
         System.out.println(avaliacoesPorTemporada);
+
+        DoubleSummaryStatistics est = episodios.stream()
+                .filter(e -> e .getAvaliacao() > 0.0)
+                .collect(Collectors.summarizingDouble(Episodio::getAvaliacao));
+        System.out.println("Média: " + est.getAverage());
+        System.out.println("Melhor episodio: " + est.getMax());
+        System.out.println("Pior episodio: " + est.getMin());
+        System.out.println("Quantidade episodios: " + est.getCount());
+
     }
 }
